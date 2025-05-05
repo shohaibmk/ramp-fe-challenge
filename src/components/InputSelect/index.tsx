@@ -59,7 +59,10 @@ export function InputSelect<TItem>({
             <div
               className="RampInputSelect--input"
               onClick={(event) => {
-                setDropdownPosition(getDropdownPosition(event.target))
+                // Get the parent container and find the label element
+                const container = (event.target as Element).closest('.RampInputSelect--root')
+                const labelElement = container?.querySelector('.RampText--hushed')
+                setDropdownPosition(getDropdownPosition(labelElement || event.target))
                 toggleProps.onClick(event)
               }}
             >
@@ -71,7 +74,11 @@ export function InputSelect<TItem>({
                 "RampInputSelect--dropdown-container-opened": isOpen,
               })}
               {...getMenuProps()}
-              style={{ top: dropdownPosition.top, left: dropdownPosition.left }}
+              style={{
+                position: 'absolute',
+                top: dropdownPosition.top,
+                left: dropdownPosition.left
+              }}
             >
               {renderItems()}
             </div>
